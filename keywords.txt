@@ -13,3 +13,6 @@ PxServ	KEYWORD1
 login	KEYWORD2
 set	    KEYWORD2
 get	    KEYWORD2
+getAll  KEYWORD2
+delete  KEYWORD2
+
