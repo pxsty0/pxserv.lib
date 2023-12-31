@@ -146,6 +146,7 @@ String PxServ::get(String key)
   delete client;
   return data;
 }
+String PxServ::getAll() {}
 int PxServ::del(String key)
 {
 

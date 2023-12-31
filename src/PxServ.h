@@ -22,6 +22,7 @@ public:
 
   int set(String key, String value);
   String get(String key);
+  String getAll();
   int del(String key);
 
 private:
