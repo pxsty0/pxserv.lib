@@ -9,7 +9,7 @@
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
 #else
-#warning "Kütüphane Sadece Deneyap Kartlar İle Çalışmaktadır"
+#warning "Kütüphane Sadece Deneyap Geliştirme Kartları ve ESP32 ler ile Çalışmaktadır"
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>

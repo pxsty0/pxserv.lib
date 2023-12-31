@@ -1,7 +1,7 @@
 #include <WiFi.h>
 #include <PxServ.h>
 
-PxServ db;
+PxServ pxserv;
 
 #define WIFI_SSID "" // Wifi Adı
 #define WIFI_PASS "" // Wifi Şifresi
@@ -16,16 +16,20 @@ void setup()
     Serial.print(".");
   }
   Serial.println("Baglandi");
-  db.login(""); // APIKEY
+  pxserv.login(""); // PxServ API Key
 }
 
 void loop()
 {
 
-  db.set("msg", "Hello World");
+  int status1 = pxserv.set("msg", "Hello Earth");
 
-  String msg = db.get("msg");
+  String msg = pxserv.get("msg");
 
+  int status2 = pxserv.del("msg");
+
+  Serial.println("Status 1 : " + String(status1));
+  Serial.println("Status 2 : " + String(status2));
   Serial.println("Mesaj : " + String(msg));
 
   delay(1000);
