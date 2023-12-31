@@ -5,70 +5,119 @@ void PxServ::login(String token)
   PxServ::token = token;
 }
 
-bool set(String key, String value)
+int PxServ::set(String key, String value)
 {
   WiFiClientSecure *client = new WiFiClientSecure;
-  bool ok = false;
-
-  // Eğer WiFiClientSecure nesnesi başarıyla oluşturulduysa devam et
+  int status = 200;
   if (client)
   {
     client->setInsecure();
 
     HTTPClient https;
 
+    String token = PxServ::token;
     if (https.begin(*client, "https://api.pxserv.net/api/set"))
     {
-      StaticJsonDocument<500> json;
-      String jsonData = "";
-
-      json["token"] = PxServ::token;
-      json["key"] = key;
-      json["value"] = value;
-
-      serializeJson(json, jsonData);
       https.addHeader("Content-Type", "application/json");
 
-      int httpCode = https.POST(jsonData);
-
-      // Eğer HTTP yanıt kodu alındıysa
+      int httpCode = https.POST("{\"token\":\"" + token +
+                                "\",\"key\":\"" + key + "\",\"value\":\"" + value + "\"}");
       if (httpCode > 0)
       {
-        // Başarılı bir yanıt kodu mu kontrol et
         if (httpCode == HTTP_CODE_OK ||
             httpCode == HTTP_CODE_MOVED_PERMANENTLY ||
             httpCode == HTTP_CODE_NO_CONTENT)
         {
-          // İşlem başarılı oldu
-          ok = true;
+
+          status = 200;
         }
         else
         {
-          // İşlem başarısız oldu
-          ok = false;
+          status = 1;
         }
-
-        // İsteği sonlandır
         https.end();
       }
       else
       {
-        // HTTP isteği başarısız oldu
-        ok = false;
+        status = 1;
       }
     }
     else
     {
-      // HTTPS bağlantısı başlatılamadı
-      ok = false;
+      status = 2;
     }
   }
   else
   {
-    // WiFiClientSecure nesnesi oluşturulamadı
-    ok = false;
+    status = 3;
   }
+  delete client;
+  return status;
 }
-String get(String key){};
-String getAll(){};
-String delete(String key){};
+String PxServ::get(String key)
+{
+  WiFiClientSecure *client = new WiFiClientSecure;
+
+  int status = 200;
+  String data = "!";
+
+  if (client)
+  {
+    client->setInsecure();
+
+    HTTPClient https;
+
+    String token = PxServ::token;
+    if (https.begin(*client, "https://api.pxserv.net/api/get"))
+    {
+      https.addHeader("Content-Type", "application/json");
+
+      int httpCode = https.POST("{\"token\":\"" + token +
+                                "\",\"key\":\"" + key + "\"}");
+      if (httpCode > 0)
+      {
+        if (httpCode == HTTP_CODE_OK ||
+            httpCode == HTTP_CODE_MOVED_PERMANENTLY ||
+            httpCode == HTTP_CODE_NO_CONTENT)
+        {
+          String jsonString = https.getString();
+          int dataIndex = jsonString.indexOf("\"data\":\"");
+
+          if (dataIndex != -1)
+          {
+            dataIndex += 7;
+
+            int endIndex = jsonString.indexOf("\"", dataIndex);
+
+            if (endIndex != -1)
+            {
+              data = jsonString.substring(dataIndex, endIndex);
+
+              status = 200;
+            }
+          }
+        }
+        else
+        {
+          status = 1;
+        }
+        https.end();
+      }
+      else
+      {
+        status = 1;
+      }
+    }
+    else
+    {
+      status = 2;
+    }
+  }
+  else
+  {
+    status = 3;
+  }
+  delete client;
+  return data;
+}
+int PxServ::del(String key){};

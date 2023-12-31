@@ -3,7 +3,6 @@
 #define PxServ_h
 
 #include <Arduino.h>
-#include <ArduinoJson.h>
 
 #if defined(ESP32)
 #include <WiFi.h>
@@ -21,10 +20,9 @@ class PxServ
 public:
   void login(String token);
 
-  bool set(String key, String value);
+  int set(String key, String value);
   String get(String key);
-  String getAll();
-  String delete(String key);
+  int del(String key);
 
 private:
   String token;
