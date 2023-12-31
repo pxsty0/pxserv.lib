@@ -16,7 +16,7 @@ int PxServ::set(String key, String value)
     HTTPClient https;
 
     String token = PxServ::token;
-    if (https.begin(*client, "https://api.pxserv.net/api/set"))
+    if (https.begin(*client, "http://api.pxserv.net/api/plain/set"))
     {
       https.addHeader("Content-Type", "application/json");
 
@@ -68,7 +68,7 @@ String PxServ::get(String key)
     HTTPClient https;
 
     String token = PxServ::token;
-    if (https.begin(*client, "https://api.pxserv.net/api/get"))
+    if (https.begin(*client, "https://cdn.anicordapp.net/api/plain/get"))
     {
       https.addHeader("Content-Type", "application/json");
 
@@ -80,22 +80,8 @@ String PxServ::get(String key)
             httpCode == HTTP_CODE_MOVED_PERMANENTLY ||
             httpCode == HTTP_CODE_NO_CONTENT)
         {
-          String jsonString = https.getString();
-          int dataIndex = jsonString.indexOf("\"data\":\"");
-
-          if (dataIndex != -1)
-          {
-            dataIndex += 7;
-
-            int endIndex = jsonString.indexOf("\"", dataIndex);
-
-            if (endIndex != -1)
-            {
-              data = jsonString.substring(dataIndex, endIndex);
-
-              status = 200;
-            }
-          }
+          data = https.getString();
+          status = 200;
         }
         else
         {
