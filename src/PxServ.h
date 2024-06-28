@@ -1,6 +1,7 @@
 
 #ifndef PxServ_h
 #define PxServ_h
+#include <Arduino_JSON.h>
 
 #include <Arduino.h>
 
@@ -18,15 +19,10 @@
 class PxServ
 {
 public:
-  void login(String token);
-
-  int set(String key, String value);
-  String get(String key);
-  String getAll();
-  int del(String key);
+  PxServ(String apiKey);
 
 private:
-  String token;
+  String _apiKey;
 };
 
 #endif
