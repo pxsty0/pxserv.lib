@@ -23,10 +23,12 @@ public:
   {
     int status;
     String message;
+    String data;
   };
 
   PxServ(String apiKey);
   Callback set(String key, String value);
+  Callback get(String key);
 
 private:
   String _apiKey;
