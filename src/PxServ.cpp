@@ -5,7 +5,7 @@ PxServ::PxServ(String apiKey)
   _apiKey = apiKey;
 }
 
-PxServ::Callback PxServ::set(String key, String value)
+PxServ::Callback PxServ::setData(String key, String value)
 {
   WiFiClientSecure *client = new WiFiClientSecure;
   Callback callback;
@@ -54,7 +54,7 @@ PxServ::Callback PxServ::set(String key, String value)
   delete client;
   return callback;
 }
-PxServ::Callback PxServ::get(String key)
+PxServ::Callback PxServ::getData(String key)
 {
   WiFiClientSecure *client = new WiFiClientSecure;
   Callback callback;
@@ -113,7 +113,7 @@ PxServ::Callback PxServ::get(String key)
   delete client;
   return callback;
 }
-PxServ::Callback PxServ::remove(String key)
+PxServ::Callback PxServ::removeData(String key)
 {
   WiFiClientSecure *client = new WiFiClientSecure;
   Callback callback;
