@@ -29,6 +29,7 @@ public:
   PxServ(String apiKey);
   Callback set(String key, String value);
   Callback get(String key);
+  Callback remove(String key);
 
 private:
   String _apiKey;
