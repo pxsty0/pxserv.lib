@@ -1,10 +1,10 @@
 #include <WiFi.h>
 #include <PxServ.h>
 
-PxServ pxserv;
+#define WIFI_SSID "" // Wi-Fi Adı
+#define WIFI_PASS "" // Wi-Fi Şifresi
 
-#define WIFI_SSID "" // Wifi Adı
-#define WIFI_PASS "" // Wifi Şifresi
+PxServ client("y5WWh16PKRkqBepq0R6wwF3aEkoQPg15"); // PxServ Proje API Key
 
 void setup()
 {
@@ -16,21 +16,23 @@ void setup()
     Serial.print(".");
   }
   Serial.println("Baglandi");
-  pxserv.login(""); // PxServ API Key
 }
 
 void loop()
 {
 
-  int status1 = pxserv.set("msg", "Hello Earth");
+  PxServ::Callback setResult = client.setData("msg", "value"); // veri eklendi
+  Serial.println("set result -> status : " + String(setResult.status) + " | message : " + String(setResult.message) + " | data : " + String(setResult.data));
 
-  String msg = pxserv.get("msg");
+  delay(2000);
 
-  int status2 = pxserv.del("msg");
+  PxServ::Callback getResult = client.getData("msg"); // veri getirildi
+  Serial.println("get result -> status : " + String(getResult.status) + " | message : " + String(getResult.message) + " | data : " + String(getResult.data));
 
-  Serial.println("Status 1 : " + String(status1));
-  Serial.println("Status 2 : " + String(status2));
-  Serial.println("Mesaj : " + String(msg));
+  delay(2000);
 
-  delay(1000);
+  PxServ::Callback removeResult = client.removeData("msg"); // veri kaldırıldı
+  Serial.println("remove result -> status : " + String(removeResult.status) + " | message : " + String(removeResult.message) + " | data : " + String(removeResult.data));
+
+  delay(2000);
 }
