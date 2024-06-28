@@ -5,10 +5,13 @@ PxServ::PxServ(String apiKey)
   _apiKey = apiKey;
 }
 
-int PxServ::set(String key, String value)
+PxServ::Callback PxServ::set(String key, String value)
 {
   WiFiClientSecure *client = new WiFiClientSecure;
-  int status = -1;
+  Callback callback;
+
+  callback.status = -1;
+  callback.message = "failed to send request";
 
   if (client)
   {
@@ -30,12 +33,16 @@ int PxServ::set(String key, String value)
 
         if (JSON.typeof(result) != "object")
         {
-          status = 400;
+          callback.status = 400;
+          callback.message = "Response format not appropriate";
         }
         else
         {
+          int status = result["status"];
+          String message = result["message"];
 
-          status = result["status"]
+          callback.status = status;
+          callback.message = message;
         }
 
         https.end();
@@ -44,5 +51,5 @@ int PxServ::set(String key, String value)
   }
 
   delete client;
-  return status;
+  return callback;
 }

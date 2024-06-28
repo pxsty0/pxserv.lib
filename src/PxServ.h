@@ -19,8 +19,14 @@
 class PxServ
 {
 public:
+  struct Callback
+  {
+    int status;
+    String message;
+  };
+
   PxServ(String apiKey);
-  int set(String key, String value);
+  Callback set(String key, String value);
 
 private:
   String _apiKey;
