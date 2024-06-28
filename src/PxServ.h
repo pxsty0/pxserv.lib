@@ -20,6 +20,7 @@ class PxServ
 {
 public:
   PxServ(String apiKey);
+  int set(String key, String value);
 
 private:
   String _apiKey;
