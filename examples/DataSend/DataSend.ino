@@ -4,7 +4,7 @@
 #define WIFI_SSID "" // Wi-Fi Adı
 #define WIFI_PASS "" // Wi-Fi Şifresi
 
-PxServ client("y5WWh16PKRkqBepq0R6wwF3aEkoQPg15"); // PxServ Proje API Key
+PxServ client("..."); // PxServ Proje API Key
 
 void setup()
 {
