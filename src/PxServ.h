@@ -1,19 +1,17 @@
 
 #ifndef PxServ_h
 #define PxServ_h
-#include <Arduino_JSON.h>
 
+#include <Arduino_JSON.h>
 #include <Arduino.h>
 
 #if defined(ESP32)
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
+#include <WiFiClientSecure.h>
 #else
 #warning "Kütüphane Sadece Deneyap Geliştirme Kartları ve ESP32 ler ile Çalışmaktadır"
-#include <WiFi.h>
-#include <WiFiMulti.h>
-#include <HTTPClient.h>
 #endif
 
 class PxServ
